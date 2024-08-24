@@ -2,7 +2,7 @@ import axios from "axios";
 import {getToken} from "../utils/getToken";
 
 const apiAxios = axios.create({
-    baseURL: ""
+    baseURL: "https://e-commerce-backend-g2.onrender.com/"
 });
 
 apiAxios.interceptors.request.use(

@@ -209,7 +209,7 @@ export const usePutOrder = () => {
 
 const signIn = async (credentials) => {
     try {
-        const response = await apiAxios.post('/users/login', credentials);
+        const response = await apiAxios.post('/user/login', credentials);
         return response.data;
     } catch (error) {
         throw new Error('Invalid credentials');
@@ -227,7 +227,7 @@ const signUp = async (userData) => {
         birthDate: "2000-01-01"
     };
     try {
-        const response = await apiAxios.post('/users/signup', defaultUserData);
+        const response = await apiAxios.post('/user/register', defaultUserData);
         return response.data;
     } catch (error) {
         throw new Error(error);
@@ -247,7 +247,7 @@ export const useUser = () => {
         }
 
         try {
-            const response = await apiAxios.get('/users/me');
+            const response = await apiAxios.get('/user/profile');
             return response.data;
         } catch (error) {
             if (error.response && error.response.status === 401) {
