@@ -29,6 +29,18 @@ export const useProduct = (id) => {
     })
 }
 
+// Fetch new arrival products
+export const useNewArrivals = () => {
+    return useQuery({
+        queryKey: ['newArrivals'],
+        queryFn: () => apiAxios.get('https://e-commerce-backend-g2.onrender.com/products/newArrivals').then(res => res.data),
+        onError: (error) => {
+            console.error('Error fetching new arrivals:', error);
+        },
+        staleTime: Infinity,
+    });
+};
+
 const fetchLandingProducts = async (filter) => {
     return await apiAxios.get(`/${filter}`)
 }
@@ -39,6 +51,22 @@ export const useLandingProducts = (filter) => {
         staleTime: Infinity
     })
 }
+
+const fetchHandpickedCollection = async () => {
+    return await apiAxios.get('https://e-commerce-backend-g2.onrender.com/products/handPickedCollection')
+        .then(res => res.data);
+};
+
+export const useHandpickedCollection = () => {
+    return useQuery({
+        queryKey: ['handpickedCollection'],
+        queryFn: fetchHandpickedCollection,
+        staleTime: Infinity,
+        onError: (error) => {
+            console.error('Error fetching handpicked collection:', error);
+        }
+    });
+};
 
 // Add Product to Cart
 

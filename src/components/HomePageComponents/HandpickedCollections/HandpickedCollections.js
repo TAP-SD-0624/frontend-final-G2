@@ -1,20 +1,22 @@
-import React from 'react'
-import HandpickedCard from './HandpickedCard/HandpickedCard'
+import React from 'react';
+import HandpickedCard from './HandpickedCard/HandpickedCard';
 import { Box, Paper, Typography } from "@mui/material";
 import { HandpickedCollectionsStyledBox, HandpickedCollectionsStyledPaper } from "./style";
 
 import LoadingProgress from "../../Loading/LoadingProgress";
-import {useLandingProducts} from "../../../hooks/useAppAPIs";
-const HandpickedCollections = (props) => {
+import { useHandpickedCollection } from "../../../hooks/useAppAPIs";
 
-    const {innerRef} = props
-    const { data: Handpicked, isLoading } = useLandingProducts('categories');
-    let filteredHandpicked = []
+const HandpickedCollections = (props) => {
+    const { innerRef } = props;
+    const { data: Handpicked, isLoading } = useHandpickedCollection();
+    let filteredHandpicked = [];
+
     if (Handpicked) {
         filteredHandpicked = Handpicked.filter(item => {
             return item.name === "Handbags" || item.name === "Personal Care" || item.name === "Watches" || item.name === "Eye Wear";
         });
     }
+
     return (
         <Paper
             role="region"
@@ -23,7 +25,7 @@ const HandpickedCollections = (props) => {
             ref={innerRef}
             sx={HandpickedCollectionsStyledPaper}
         >
-            {isLoading &&  <div role="alert" aria-busy="true">
+            {isLoading && <div role="alert" aria-busy="true">
                 <LoadingProgress />
             </div>}
             <Typography
@@ -33,15 +35,13 @@ const HandpickedCollections = (props) => {
             >
                 Handpicked Collections
             </Typography>
-
-                <Box sx={HandpickedCollectionsStyledBox}>
-                    {filteredHandpicked?.map((item) =>
-                        <HandpickedCard key={item.id} collection={item} />
-                    )}
-
-                </Box>
+            <Box sx={HandpickedCollectionsStyledBox}>
+                {filteredHandpicked?.map((item) =>
+                    <HandpickedCard key={item.id} collection={item} />
+                )}
+            </Box>
         </Paper>
-    )
-}
+    );
+};
 
-export default HandpickedCollections
+export default HandpickedCollections;
