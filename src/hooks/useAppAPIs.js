@@ -33,7 +33,7 @@ export const useProduct = (id) => {
 export const useNewArrivals = () => {
     return useQuery({
         queryKey: ['newArrivals'],
-        queryFn: () => apiAxios.get('https://e-commerce-backend-g2.onrender.com/products/newArrivals').then(res => res.data),
+        queryFn: () => apiAxios.get('/products/newArrivals').then(res => res.data),
         onError: (error) => {
             console.error('Error fetching new arrivals:', error);
         },
@@ -53,18 +53,18 @@ export const useLandingProducts = (filter) => {
 }
 
 const fetchHandpickedCollection = async () => {
-    return await apiAxios.get('https://e-commerce-backend-g2.onrender.com/products/handPickedCollection')
+    return await apiAxios.get('/products/handPickedCollection/')
         .then(res => res.data);
 };
 
 export const useHandpickedCollection = () => {
     return useQuery({
-        queryKey: ['handpickedCollection'],
-        queryFn: fetchHandpickedCollection,
-        staleTime: Infinity,
+        queryKey: ['handPickedCollection'],
+        queryFn: () => apiAxios.get('/products/handPickedCollection').then(res => res.data),
         onError: (error) => {
-            console.error('Error fetching handpicked collection:', error);
-        }
+            console.error('Error fetching new arrivals:', error);
+        },
+        staleTime: Infinity,
     });
 };
 

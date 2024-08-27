@@ -12,9 +12,6 @@ const NewArrival = () => {
     const navigate = useNavigate();
     const { data: newArrivals, isLoading, isError } = useNewArrivals();
 
-    // Debugging: Log the data structure
-    console.log('New Arrivals Data:', newArrivals);
-
     if (isLoading) {
         return <LoadingProgress />;
     }
@@ -74,10 +71,11 @@ const NewArrival = () => {
                         sx={sectionBox}
                     >
                         <ProductCard
-                            image={product.image}
+                            image={product.imageUrl}
                             item={product}
-                            title={product.name}
-                            description={product.highlight}
+                            title={product.title}
+                            description={product.label}
+                            price={product.price + "$"}
                             variant={{ title: 'h5', body: 'body2' }}
                             width={'100%'}
                         />

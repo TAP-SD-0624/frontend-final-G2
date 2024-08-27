@@ -5,7 +5,7 @@ import {ReactComponent as FilledFavoriteIcon} from "../../assets/icons/Fill-favo
 import defaultImage from '../../assets/images/alt-image.png';
 const ProductCard = (props) => {
 
-    const { image, title, description, width, variant, addToFavourite=true, onClick, fill=false, imageSx} = props
+    const { image, title, description, width, variant, addToFavourite=true, onClick, fill=false, imageSx, price} = props
 
     const [is1to1Ratio, setIs1to1Ratio] = useState(false);
     const [imageError, setImageError] = useState(false);
@@ -70,6 +70,11 @@ const ProductCard = (props) => {
               <Typography noWrap variant={variant.body} color="text.secondary" component="p" role="paragraph">
                   {description}
               </Typography>
+          }
+          {price &&
+          <Typography noWrap variant={variant.body} color="text.secondary" component="p" role="paragraph">
+          {price}
+      </Typography>
           }
 
       </CardContent>
