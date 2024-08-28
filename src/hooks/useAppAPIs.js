@@ -6,19 +6,28 @@ import {useNavigate} from "react-router-dom";
 
 //fetch products
 
+// export const useProducts = (filter) => {
+//     return useQuery({
+//         queryKey: ['products', 'list', filter],
+//         queryFn: () => apiAxios.get(`/products/filter${filter}`).then(res => res.data),
+//         onError: (error) => {
+
+//             console.error('Error in useProducts hook:', error);
+//         },
+//         staleTime: Infinity
+//     });
+// };
+
 export const useProducts = (filter) => {
     return useQuery({
         queryKey: ['products', 'list', filter],
-        queryFn: () => apiAxios.get(`/products/filter${filter}`).then(res => res.data),
+        queryFn: () => apiAxios.get(`/products/itemCardTwo${filter}`).then(res => res.data),
         onError: (error) => {
-
             console.error('Error in useProducts hook:', error);
         },
         staleTime: Infinity
     });
 };
-
-
 
 // fetch one product
 export const useProduct = (id) => {
@@ -40,6 +49,18 @@ export const useNewArrivals = () => {
         staleTime: Infinity,
     });
 };
+
+export const useProductsByBrand = () => {
+    return useQuery({
+        queryKey: ['brands'],
+        queryFn: () => apiAxios.get(`/homePage`).then(res => res.data.brands),  // Assuming the response has a `brands` array
+        onError: (error) => {
+            console.error('Error fetching brands:', error);
+        },
+        staleTime: Infinity,
+    });
+};
+
 
 const fetchLandingProducts = async (filter) => {
     return await apiAxios.get(`/${filter}`)

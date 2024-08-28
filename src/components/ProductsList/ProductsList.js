@@ -26,9 +26,9 @@ const ProductsList = (props) => {
                 {products.map((productItem, index) => (
                     <Grid sx={{display: 'flex', flexDirection: 'column', alignItems: isSmallScreen ? 'center' : 'space-between'}} item xs={12} sm={6} md={4} lg={3} key={index} onClick={() => navigate(`/products/${productItem.id}`)} role="list-item" aria-posinset={index + 1} aria-setsize={products.length}>
                       <ProductCard
-                          image={productItem.image}
-                          title={productItem.name}
-                          description={productItem.highlight}
+                          image={productItem.imageUrl} 
+                          title={productItem.title} 
+                          description={productItem.label}  
                           variant={{ title: 'body1', body: 'h6' }}
                           width={285}
                           onClick={onClick}
@@ -36,13 +36,13 @@ const ProductsList = (props) => {
                       />
                       {isSmallScreen ? (
                           <Typography sx={{ color: 'primary.main', marginLeft: '1rem' }} variant={'h6'} component={'p'}>
-                            {productItem.averageRating ? `Rating: ${Math.round(Math.random() * 299) + 1}` : 'No Ratings'}
+                            {productItem.rating ? `Rating: ${productItem.rating}` : 'No Ratings'}
                           </Typography>
                       ) : (
                           <Box sx={{ display: 'flex', marginBottom: '5px', marginLeft: '10px' }} role="content-info">
-                            <Rating name="half-rating-read" value={productItem.averageRating} precision={0.5} readOnly />
+                            <Rating name="half-rating-read" value={productItem.rating} precision={0.5} readOnly />
                             <Typography sx={{ color: 'primary.main', marginLeft: '10px' }} variant={'h6'} component={'p'} role="status">
-                              {productItem.averageRating ? `${Math.round(Math.random() * 299) + 1} Ratings` : 'No rating'}
+                              {productItem.rating ? `${productItem.totalRatings} Ratings` : 'No rating'}
                             </Typography>
                           </Box>
                       )}

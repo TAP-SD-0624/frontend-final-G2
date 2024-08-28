@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProductsList from '../components/ProductsList/ProductsList';
 import imghero from '../assets/images/black-friday.png';
 import { StyledTitle } from "../themes/StyledPageTitle";
-
-import { Box, Container, Button, CircularProgress } from '@mui/material'
+import { Box, Container, Button, CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useProducts } from '../hooks/useAppAPIs';
 import { getQueryValue } from "../utils/getQueryValue";
@@ -33,16 +32,16 @@ const ProductsPage = () => {
     };
 
     useEffect(() => {
-        setTitle(getQueryValue(queryString))
-        setPage(1)
-    }, [queryString])
+        setTitle(getQueryValue(queryString));
+        setPage(1);
+    }, [queryString]);
 
     const links = [
         {
             name: 'Home',
             path: '/'
         }
-    ]
+    ];
 
     if (isLoading) {
         return (
@@ -54,13 +53,12 @@ const ProductsPage = () => {
         );
     }
 
-
     return (
         <Container aria-label="Product Page" role="region" sx={{ marginTop: '2rem', display: 'flex', flexDirection: 'column' }} maxWidth='1780px'>
             <img alt={'pic'} src={imghero} width='100%' />
             <CustomBreadcrumbs links={links} label={title} />
             {title && (
-                <StyledTitle role="heading" variant="h2" component={'h1'} >
+                <StyledTitle role="heading" variant="h2" component={'h1'}>
                     {title}
                 </StyledTitle>
             )}
@@ -72,13 +70,12 @@ const ProductsPage = () => {
                     </Button>
                 </>
             }
-            { products?.products.length > 0 ? <ProductsList products={products.products} /> : <Typography variant={'h3'} component={'h2'}>No Products Found :(</Typography>}
+            { products?.length > 0 ? <ProductsList products={products} /> : <Typography variant={'h3'} component={'h2'}>No Products Found :(</Typography>}
             <Box sx={{ display: 'flex', justifyContent: 'center', my: 4, gap: '20px' }}>
                 {products && <Box sx={{ height: '36px', bgcolor: 'grey.main', borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center' }} px={2}>
-                    <Pagination aria-label="Page navigation" count={products.pagination.totalPages} page={page} onChange={handleChange} shape="rounded" color="primary" hidePrevButton hideNextButton />
+                    <Pagination aria-label="Page navigation" count={products?.pagination?.totalPages || 1} page={page} onChange={handleChange} shape="rounded" color="primary" hidePrevButton hideNextButton />
                 </Box>}
-                {products?.pagination.totalPages !== products?.pagination.currentPage && <Button aria-label="Next page" onClick={handleNext} variant="contained" sx={{ color: 'TypeLowEmphasis.main', bgcolor: 'grey.main', height: '36px', width: '67px' }}>Next</Button>
-                }
+                {products?.pagination?.totalPages !== products?.pagination?.currentPage && <Button aria-label="Next page" onClick={handleNext} variant="contained" sx={{ color: 'TypeLowEmphasis.main', bgcolor: 'grey.main', height: '36px', width: '67px' }}>Next</Button>}
             </Box>
         </Container>
     );

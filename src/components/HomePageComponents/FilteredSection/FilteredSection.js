@@ -19,11 +19,11 @@ const FilteredSection = (props) => {
     const navigate = useNavigate()
 
     const handleAccessoriesCardClick = () => {
-        navigate("/products?minDiscount=35&random=true&categoryId=4");
+        navigate("/products/itemCardOne");
     };
 
     const handleSkincareCardClick = () => {
-        navigate("/products?minDiscount=35&random=true&categoryId=3");
+        navigate("/products/itemCardTwo");
     };
 
   return (

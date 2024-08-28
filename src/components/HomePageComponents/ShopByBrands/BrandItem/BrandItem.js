@@ -1,27 +1,27 @@
-import React from 'react'
-import {CardMedia} from "@mui/material";
-import {BrandCard} from "./style";
+import React from 'react';
+import { CardMedia } from "@mui/material";
+import { BrandCard } from "./style";
 import { useNavigate } from 'react-router-dom';
 
-const BrandItem = ({brand}) => {
-
+const BrandItem = ({ brand }) => {
     const navigate = useNavigate();
+
     if (!brand) {
-        return <></>
+        return null;
     }
-    
-  return (
-    <div>
-        <BrandCard>
-            <CardMedia onClick={() => navigate(`/products?brandId=${brand.id}`)}
-                component="img"
-                image={brand.image}
-                style={{ width: '80%', height: 'auto' }}
-            />
-        </BrandCard>
 
-    </div>
-  )
-}
+    return (
+        <div>
+            <BrandCard>
+                <CardMedia
+                    onClick={() => navigate(`/products?brandId=${brand.id}`)}  // Use the brand.id to match the API structure
+                    component="img"
+                    image={brand.imageUrl}  // Ensure the image URL matches the API response
+                    style={{ width: '80%', height: 'auto' }}
+                />
+            </BrandCard>
+        </div>
+    );
+};
 
-export default BrandItem
+export default BrandItem;
