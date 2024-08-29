@@ -8,6 +8,7 @@ import { ReactComponent as YoutubeIcon } from '../../assets/icons/youtube-logo.s
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg'
 import theme from "../../themes/customTheme";
 import {Link} from "react-router-dom";
+import useCategories from "../../hooks/useCategories";
 
 const FooterContainer = (props) => {
 
@@ -15,36 +16,40 @@ const FooterContainer = (props) => {
 
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const alignItemsValue = isSmallScreen ? 'flex-start' : 'flex-end'
-    const ShopByCategoryListItems = [
-        {
-            text: 'Skincare',
-            path: '/products?categoryId=3'
-        },
-        {
-            text: 'Personal Care',
-            path: '/products?categoryId=6'
-        },
-        {
-            text: 'Handbags',
-            path: '/products?categoryId=1'
-        },
-        {
-            text: 'Apparels',
-            path: '/products?categoryId=5'
-        },
-        {
-            text: 'Watches',
-            path: '/products?categoryId=2'
-        },
-        {
-            text: 'Eye Wear',
-            path: '/products?categoryId=7'
-        },
-        {
-            text: 'Jewellery',
-            path: '/products?categoryId=4'
-        },
-    ]
+    const{categoryData}=useCategories();
+const categoriesData =categoryData?.categories;
+console.log(categoryData?.categories);
+
+    // const ShopByCategoryListItems = [
+    //     {
+    //         text: 'Skincare',
+    //         path: '/products?categoryId=3'
+    //     },
+    //     {
+    //         text: 'Personal Care',
+    //         path: '/products?categoryId=6'
+    //     },
+    //     {
+    //         text: 'Handbags',
+    //         path: '/products?categoryId=1'
+    //     },
+    //     {
+    //         text: 'Apparels',
+    //         path: '/products?categoryId=5'
+    //     },
+    //     {
+    //         text: 'Watches',
+    //         path: '/products?categoryId=2'
+    //     },
+    //     {
+    //         text: 'Eye Wear',
+    //         path: '/products?categoryId=7'
+    //     },
+    //     {
+    //         text: 'Jewellery',
+    //         path: '/products?categoryId=4'
+    //     },
+    // ]
     const ShopByProductsItems = ["Featured", "Trendy", "Brands"];
 
     const FooterToolbarStyle = {
@@ -64,7 +69,7 @@ const FooterContainer = (props) => {
                         <Box  >
                             <Typography sx={{ color: 'primary.contrastText' }} variant={'body1'} component={'h2'}>Shop by Category</Typography>
                             <List >
-                                {ShopByCategoryListItems.map((category) => (
+                                {categoriesData?.map((category) => (
                                     <ListItemButton
                                         key={category.text}
                                         href={category.path}
@@ -77,7 +82,7 @@ const FooterContainer = (props) => {
                                                     variant={'body1'}
                                                     component={'h2'}
                                                 >
-                                                    {category.text}
+                                                    {category.title}
                                                 </Typography>} />
                                     </ListItemButton>
                                 ))}

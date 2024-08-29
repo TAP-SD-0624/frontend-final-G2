@@ -4,19 +4,17 @@ import {getToken} from "../utils/getToken";
 import {useNavigate} from "react-router-dom";
 
 
-//fetch products
-
-// export const useProducts = (filter) => {
-//     return useQuery({
-//         queryKey: ['products', 'list', filter],
-//         queryFn: () => apiAxios.get(`/products/filter${filter}`).then(res => res.data),
-//         onError: (error) => {
-
-//             console.error('Error in useProducts hook:', error);
-//         },
-//         staleTime: Infinity
-//     });
-// };
+export const useCategories = () => {
+    return useQuery({
+        queryKey: ['categories'],
+        queryFn: () => apiAxios.get('/categories').then(res => res.data),
+        onError: (error) => {
+            console.error('Error fetching categories:', error);
+        },
+        staleTime: Infinity,
+        
+    });
+};
 
 export const useProducts = (filter) => {
     return useQuery({
@@ -73,10 +71,6 @@ export const useLandingProducts = (filter) => {
     })
 }
 
-const fetchHandpickedCollection = async () => {
-    return await apiAxios.get('/products/handPickedCollection/')
-        .then(res => res.data);
-};
 
 export const useHandpickedCollection = () => {
     return useQuery({

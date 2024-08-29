@@ -6,6 +6,8 @@ import FilteredSection from '../components/HomePageComponents/FilteredSection/Fi
 import Box from "@mui/material/Box";
 import {useOutletContext} from "react-router-dom";
 import {useEffect, useRef} from "react";
+import { useQuery } from 'react-query'
+import { apiAxios } from '../api/axiosConfig'
 const HomePage = () => {
 
     const { section } = useOutletContext();
@@ -13,9 +15,19 @@ const HomePage = () => {
     const featuredSection = useRef(null);
     const trendySection = useRef(null);
     const brandsSection = useRef(null);
+     const useProductsByBrand = () => {
+     return useQuery({
+            queryKey: ['brands'],
+            queryFn: () => apiAxios.get(`/homePage`).then(res => res.data.categories),  // Assuming the response has a `brands` array
+            onError: (error) => {
+                console.error('Error fetching brands:', error);
+            },
+            staleTime: Infinity,
+        });
+    };
 
-
-
+ const categories=useProductsByBrand.data;
+ console.log(categories);
     useEffect(() => {
         switch (section) {
             case "Featured":
