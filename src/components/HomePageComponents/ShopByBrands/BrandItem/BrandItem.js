@@ -14,7 +14,14 @@ const BrandItem = ({ brand }) => {
         <div>
             <BrandCard>
                 <CardMedia
-                    onClick={() => navigate(`/products?brandId=${brand.id}`)}  // Use the brand.id to match the API structure
+                    // onClick={() => 
+                //     navigate(`/products`, { state: { brandId: brand.id } })
+                // navigat
+                // navigate(`/products?brandId=${brand.id}`)}  // Use the brand.id to match the API structure
+                // onClick={() =>navigate(`/products?brandId=${brand.id}`)}
+                onClick={() => navigate(`/products?brandId=${brand.id}&brandName=${brand.title}`)}
+
+                    // Use the brand.id to match the API structure
                     component="img"
                     image={brand.imageUrl}  // Ensure the image URL matches the API response
                     style={{ width: '80%', height: 'auto' }}

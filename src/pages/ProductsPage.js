@@ -1,34 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import ProductsList from '../components/ProductsList/ProductsList';
 import imghero from '../assets/images/black-friday.png';
 import { StyledTitle } from "../themes/StyledPageTitle";
 import { Box, Container, Button, CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import { useProducts } from '../hooks/useAppAPIs';
 import { getQueryValue } from "../utils/getQueryValue";
 import CustomBreadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
-import Typography from "@mui/material/Typography";
+import useBrands from "../hooks/useBrands";
 import { Pagination } from "@mui/material";
+import ProductsList from '../components/ProductsList/ProductsList';
+import Typography from "@mui/material/Typography";
+
+
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
 
 const ProductsPage = () => {
     const [title, setTitle] = useState();
     const [page, setPage] = useState(1);
     const limit = 20;
-
+    const query = useQuery();
+    const brandId = query.get('brandId');
+    const brandName = query.get('brandName');
+    const{ brandData}=useBrands(brandId);
+    console.log(brandData);
     const offset = (page - 1) * limit;
-
     const location = useLocation();
-    const queryString = location.search;
-
+    const queryString = location.search;   
     const filter = `${queryString}&offset=${offset}&limit=${limit}`;
-
-    const { error, data: products, isLoading } = useProducts(filter, page);
-    const handleChange = (event, value) => {
-        setPage(value);
-    };
-
+    
     const handleNext = () => {
         setPage((prevPage) => prevPage + 1);
+    };
+    const handleChange = (event, value) => {
+        setPage(value);
     };
 
     useEffect(() => {
@@ -42,41 +48,25 @@ const ProductsPage = () => {
             path: '/'
         }
     ];
-
-    if (isLoading) {
-        return (
-            <div>
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '40vh' }}>
-                    <CircularProgress />
-                </Box>
-            </div>
-        );
-    }
-
+      
+    
     return (
         <Container aria-label="Product Page" role="region" sx={{ marginTop: '2rem', display: 'flex', flexDirection: 'column' }} maxWidth='1780px'>
             <img alt={'pic'} src={imghero} width='100%' />
-            <CustomBreadcrumbs links={links} label={title} />
-            {title && (
+            <CustomBreadcrumbs links={links} label={brandName} />
+            {brandName && (
                 <StyledTitle role="heading" variant="h2" component={'h1'}>
-                    {title}
+                    {brandName}
                 </StyledTitle>
             )}
-            {error &&
-                <>
-                    <Typography component={'h2'} variant={'h2'}>Something went wrong. Please try again.</Typography>
-                    <Button sx={{width: '180px'}} variant="contained" color="primary" onClick={() => window.location.reload()}>
-                        Reload Page
-                    </Button>
-                </>
-            }
-            { products?.length > 0 ? <ProductsList products={products} /> : <Typography variant={'h3'} component={'h2'}>No Products Found :(</Typography>}
+            { brandData?.length > 0 ? <ProductsList products={brandData} /> : <Typography variant={'h3'} component={'h2'}>No Products Found :(</Typography>}
             <Box sx={{ display: 'flex', justifyContent: 'center', my: 4, gap: '20px' }}>
-                {products && <Box sx={{ height: '36px', bgcolor: 'grey.main', borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center' }} px={2}>
-                    <Pagination aria-label="Page navigation" count={products?.pagination?.totalPages || 1} page={page} onChange={handleChange} shape="rounded" color="primary" hidePrevButton hideNextButton />
+                {brandData && <Box sx={{ height: '36px', bgcolor: 'grey.main', borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center' }} px={2}>
+                    <Pagination aria-label="Page navigation" count={brandData?.pagination?.totalPages || 1} page={page} onChange={handleChange} shape="rounded" color="primary" hidePrevButton hideNextButton />
                 </Box>}
-                {products?.pagination?.totalPages !== products?.pagination?.currentPage && <Button aria-label="Next page" onClick={handleNext} variant="contained" sx={{ color: 'TypeLowEmphasis.main', bgcolor: 'grey.main', height: '36px', width: '67px' }}>Next</Button>}
+                {brandData?.pagination?.totalPages !== brandData?.pagination?.currentPage && <Button aria-label="Next page" onClick={handleNext} variant="contained" sx={{ color: 'TypeLowEmphasis.main', bgcolor: 'grey.main', height: '36px', width: '67px' }}>Next</Button>}
             </Box>
+
         </Container>
     );
 };
