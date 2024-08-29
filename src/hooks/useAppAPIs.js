@@ -75,7 +75,7 @@ export const useLandingProducts = (filter) => {
 export const useHandpickedCollection = () => {
     return useQuery({
         queryKey: ['handPickedCollection'],
-        queryFn: () => apiAxios.get('/products/handPickedCollection').then(res => res.data),
+        queryFn: () => apiAxios.get('/products/handPickedCollection?id=1').then(res => res.data),
         onError: (error) => {
             console.error('Error fetching new arrivals:', error);
         },

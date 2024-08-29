@@ -9,8 +9,7 @@ import useBrands from "../hooks/useBrands";
 import { Pagination } from "@mui/material";
 import ProductsList from '../components/ProductsList/ProductsList';
 import Typography from "@mui/material/Typography";
-
-
+import useCategoryData from '../hooks/useCategoryData';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -23,8 +22,14 @@ const ProductsPage = () => {
     const query = useQuery();
     const brandId = query.get('brandId');
     const brandName = query.get('brandName');
+    const categoryID = query.get('categoryID');
+    const categoryName = query.get('categoryName');
     const{ brandData}=useBrands(brandId);
     console.log(brandData);
+    const{categoryData}=useCategoryData(categoryID);
+    let name=brandName?brandName:categoryName;
+    let data=brandId?brandData:categoryData;
+    
     const offset = (page - 1) * limit;
     const location = useLocation();
     const queryString = location.search;   
@@ -53,22 +58,21 @@ const ProductsPage = () => {
     return (
         <Container aria-label="Product Page" role="region" sx={{ marginTop: '2rem', display: 'flex', flexDirection: 'column' }} maxWidth='1780px'>
             <img alt={'pic'} src={imghero} width='100%' />
-            <CustomBreadcrumbs links={links} label={brandName} />
-            {brandName && (
+            <CustomBreadcrumbs links={links} label={name} />
+            {name && (
                 <StyledTitle role="heading" variant="h2" component={'h1'}>
-                    {brandName}
+                    {name}
                 </StyledTitle>
             )}
-            { brandData?.length > 0 ? <ProductsList products={brandData} /> : <Typography variant={'h3'} component={'h2'}>No Products Found :(</Typography>}
+            { data?.length > 0 ? <ProductsList products={data} /> : <Typography variant={'h3'} component={'h2'}>No Products Found :(</Typography>}
             <Box sx={{ display: 'flex', justifyContent: 'center', my: 4, gap: '20px' }}>
-                {brandData && <Box sx={{ height: '36px', bgcolor: 'grey.main', borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center' }} px={2}>
-                    <Pagination aria-label="Page navigation" count={brandData?.pagination?.totalPages || 1} page={page} onChange={handleChange} shape="rounded" color="primary" hidePrevButton hideNextButton />
+                {data && <Box sx={{ height: '36px', bgcolor: 'grey.main', borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center' }} px={2}>
+                    <Pagination aria-label="Page navigation" count={data?.pagination?.totalPages || 1} page={page} onChange={handleChange} shape="rounded" color="primary" hidePrevButton hideNextButton />
                 </Box>}
-                {brandData?.pagination?.totalPages !== brandData?.pagination?.currentPage && <Button aria-label="Next page" onClick={handleNext} variant="contained" sx={{ color: 'TypeLowEmphasis.main', bgcolor: 'grey.main', height: '36px', width: '67px' }}>Next</Button>}
+                {data?.pagination?.totalPages !== data?.pagination?.currentPage && <Button aria-label="Next page" onClick={handleNext} variant="contained" sx={{ color: 'TypeLowEmphasis.main', bgcolor: 'grey.main', height: '36px', width: '67px' }}>Next</Button>}
             </Box>
 
         </Container>
     );
 };
-
 export default ProductsPage;

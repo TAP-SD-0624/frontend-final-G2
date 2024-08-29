@@ -60,10 +60,9 @@ const Header = () => {
     }
   };
 
-  
-const{categoryData}=useCategories();
-const categoriesData =categoryData?.categories;
-console.log(categoryData?.categories);
+  const { categoryData } = useCategories();
+  const categoriesData = categoryData?.categories;
+  console.log(categoryData?.categories);
 
   return (
     <AppBar
@@ -81,49 +80,27 @@ console.log(categoryData?.categories);
         </IconButton>
 
         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-          {/* <IconButton
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="cc"
-          >
-            <MenuIcon />
-          </IconButton> */}
-
           <Stack direction="row">
-{categoriesData &&
-              categoriesData?.map((page) => (
-                <MenuItem key={page.id} onClick={handleCloseNavMenu}>
-                  <Typography 
+            {categoriesData &&
+              categoriesData?.map((category) => (
+                <MenuItem key={category.id} onClick={handleCloseNavMenu}>
+                  <Typography
                     variant={"h4"}
                     component={"h2"}
                     sx={{ color: "black" }}
                     textAlign="center"
-                    onClick={() => navigate(`/products?categoryId=${page.id}`)}
+                    onClick={() =>
+                      navigate(
+                        `/products?categoryID=${category.id}&categoryName=${category.title}`
+                      )
+                    }
                   >
-                    {page.title}
+                    {category.title}
                   </Typography>
                 </MenuItem>
               ))}
           </Stack>
-            
-              
         </Box>
-
-        {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-          {categories &&
-            categories.slice(0, 5).map((page) => (
-              <Button
-                key={page.id}
-                onClick={() => navigate(`/products?categoryId=${page.id}`)}
-                sx={{ my: 2, display: "block", color: "TypeHighEmphasis.main" }}
-              >
-                {page.name}
-              </Button>
-            ))}
-        </Box> */}
-
         <Box
           sx={{
             backgroundColor: "accent.main",

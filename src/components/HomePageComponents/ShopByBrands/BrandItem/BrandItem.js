@@ -14,11 +14,6 @@ const BrandItem = ({ brand }) => {
         <div>
             <BrandCard>
                 <CardMedia
-                    // onClick={() => 
-                //     navigate(`/products`, { state: { brandId: brand.id } })
-                // navigat
-                // navigate(`/products?brandId=${brand.id}`)}  // Use the brand.id to match the API structure
-                // onClick={() =>navigate(`/products?brandId=${brand.id}`)}
                 onClick={() => navigate(`/products?brandId=${brand.id}&brandName=${brand.title}`)}
 
                     // Use the brand.id to match the API structure

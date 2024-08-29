@@ -7,11 +7,12 @@ import { ReactComponent as TwitterIcon } from '../../assets/icons/twitter-logo.s
 import { ReactComponent as YoutubeIcon } from '../../assets/icons/youtube-logo.svg'
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg'
 import theme from "../../themes/customTheme";
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 import useCategories from "../../hooks/useCategories";
 
 const FooterContainer = (props) => {
 
+    const navigate=useNavigate();
     const {setSection} = props;
 
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -20,36 +21,6 @@ const FooterContainer = (props) => {
 const categoriesData =categoryData?.categories;
 console.log(categoryData?.categories);
 
-    // const ShopByCategoryListItems = [
-    //     {
-    //         text: 'Skincare',
-    //         path: '/products?categoryId=3'
-    //     },
-    //     {
-    //         text: 'Personal Care',
-    //         path: '/products?categoryId=6'
-    //     },
-    //     {
-    //         text: 'Handbags',
-    //         path: '/products?categoryId=1'
-    //     },
-    //     {
-    //         text: 'Apparels',
-    //         path: '/products?categoryId=5'
-    //     },
-    //     {
-    //         text: 'Watches',
-    //         path: '/products?categoryId=2'
-    //     },
-    //     {
-    //         text: 'Eye Wear',
-    //         path: '/products?categoryId=7'
-    //     },
-    //     {
-    //         text: 'Jewellery',
-    //         path: '/products?categoryId=4'
-    //     },
-    // ]
     const ShopByProductsItems = ["Featured", "Trendy", "Brands"];
 
     const FooterToolbarStyle = {
@@ -74,6 +45,11 @@ console.log(categoryData?.categories);
                                         key={category.text}
                                         href={category.path}
                                         sx={{ margin: 0, padding: 0, marginTop: '8px' }}
+                                        onClick={() =>
+                                            navigate(
+                                              `/products?categoryID=${category.id}&categoryName=${category.title}`
+                                            )
+                                          }
                                     >
                                         <ListItemText
                                             primary={

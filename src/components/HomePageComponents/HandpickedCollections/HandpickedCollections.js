@@ -2,7 +2,7 @@ import React from 'react';
 import HandpickedCard from './HandpickedCard/HandpickedCard';
 import { Box, Paper, Typography } from "@mui/material";
 import { HandpickedCollectionsStyledBox, HandpickedCollectionsStyledPaper } from "./style";
-
+import useCategories from '../../../hooks/useCategories';
 import LoadingProgress from "../../Loading/LoadingProgress";
 import { useHandpickedCollection } from "../../../hooks/useAppAPIs";
 
@@ -16,7 +16,8 @@ const HandpickedCollections = (props) => {
             return item.name === "Handbags" || item.name === "Personal Care" || item.name === "Watches" || item.name === "Eye Wear";
         });
     }
-
+    const { categoryData } = useCategories();
+    const categoriesData = categoryData?.categories;
     return (
         <Paper
             role="region"
@@ -35,9 +36,9 @@ const HandpickedCollections = (props) => {
             >
                 Handpicked Collections
             </Typography>
-            <Box sx={HandpickedCollectionsStyledBox}>
-                {filteredHandpicked?.map((item) =>
-                    <HandpickedCard key={item.id} collection={item} />
+            <Box sx={HandpickedCollectionsStyledBox}> 
+                {categoriesData?.map((item) =>
+                    <HandpickedCard key={item.id} collection={item}  />
                 )}
             </Box>
         </Paper>
