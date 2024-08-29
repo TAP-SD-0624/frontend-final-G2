@@ -31,7 +31,7 @@ export const useProducts = (filter) => {
 export const useProduct = (id) => {
     return useQuery({
         queryKey:['product','get', id],
-        queryFn:async()=> await apiAxios.get(`/products/${id}`).then(res=>res.data),
+        queryFn:async()=> await apiAxios.get(`/products/itemPage?id=${id}`).then(res=>res.data),
         staleTime: Infinity
     })
 }

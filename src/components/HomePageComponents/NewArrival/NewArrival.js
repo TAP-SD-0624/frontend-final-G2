@@ -48,7 +48,7 @@ const NewArrival = () => {
                 <Button
                     style={{ textTransform: 'none', alignSelf: 'flex-end', fontSize: '16px' }}
                     aria-label="View all new arrivals"
-                    onClick={() => navigate(`/products/newArrivals`)}
+                    onClick={() => navigate(`/products?newArrivals=New Arrivals`)}
                     endIcon={<ArrowForwardIosIcon />}
                 >
                     View all

@@ -10,6 +10,7 @@ import { Pagination } from "@mui/material";
 import ProductsList from '../components/ProductsList/ProductsList';
 import Typography from "@mui/material/Typography";
 import useCategoryData from '../hooks/useCategoryData';
+import useNewArrivals from '../hooks/useNewArrivals';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -23,12 +24,14 @@ const ProductsPage = () => {
     const brandId = query.get('brandId');
     const brandName = query.get('brandName');
     const categoryID = query.get('categoryID');
+    const newArrivals=query.get('newArrivals');
     const categoryName = query.get('categoryName');
     const{ brandData}=useBrands(brandId);
+    const {newArrivalsData}=useNewArrivals();
     console.log(brandData);
     const{categoryData}=useCategoryData(categoryID);
-    let name=brandName?brandName:categoryName;
-    let data=brandId?brandData:categoryData;
+    let name=brandName?brandName:categoryName?categoryName:newArrivals;
+    let data=brandId?brandData:categoryData?categoryData:newArrivalsData;
     
     const offset = (page - 1) * limit;
     const location = useLocation();

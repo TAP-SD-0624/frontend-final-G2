@@ -48,8 +48,8 @@ const ProductPage = () => {
             path: `/`
         },
         {
-            name: product?.Categories?.[0]?.categoryTitle || 'Category', // Adjusted to match API structure
-            path: `/products?categoryId=${product?.Categories?.[0]?.categoryId || ''}` // Adjusted to match API structure
+            name: product?.Categories?.[0]?.categoryTitle || 'Category', 
+            path: `/products?categoryId=${product?.Categories?.[0]?.categoryId || ''}`
         },
     ];
 
