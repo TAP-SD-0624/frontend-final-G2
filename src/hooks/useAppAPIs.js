@@ -89,7 +89,7 @@ export const useAddToCart = (productId, quantity) => {
     return useMutation({
         mutationFn: async () => {
             try {
-                const response = await apiAxios.post('/orders/add-to-cart', { productId, quantity });
+                const response = await apiAxios.post('/products/addItemToCart', { productId, quantity });
                 return response.data;
             } catch (error) {
                 throw error;
@@ -97,7 +97,6 @@ export const useAddToCart = (productId, quantity) => {
         },
     });
 };
-
 
 
 // Remove Product from Cart
@@ -351,7 +350,27 @@ export const useMoveToWishlist = () => {
 
 
 
-// Logout
+// export const useLogout = () => {
+//     const navigate = useNavigate();
+//     return useMutation(
+//         async () => {
+//             try {
+//                 const response = await apiAxios.post('/users/logout', null);
+//                 return response.data;
+//             } catch (error) {
+//                 throw error;
+//             }
+//         },
+//         {
+//             onSuccess: () => {
+//                 navigate('/');
+//             },
+//         }
+//     );
+// };
+
+
+
 export const useLogout = () => {
     const navigate = useNavigate();
     return useMutation(
@@ -370,7 +389,6 @@ export const useLogout = () => {
         }
     );
 };
-
 
 // add user address to the order
 export const useUpdateOrderInfo = () => {
@@ -468,27 +486,46 @@ export const useReorder = (id) => {
 
 // update user information
 
-export const UseUpdateUser = () => {
+// export const UseUpdateUser = () => {
 
+//     const queryClient = useQueryClient();
+
+//     return useMutation({
+//         mutationFn: async (userData) => {
+
+//             try {
+//                 return await apiAxios.put(`/users`, userData);
+//             } catch (error) {
+//                 throw error;
+//             }
+//         },
+//         onSuccess: () => {
+//             queryClient.invalidateQueries(['user', 'me']);
+//         },
+
+//     });
+
+// }
+
+
+
+export const UseUpdateUser = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (userData) => {
-
             try {
-                return await apiAxios.put(`/users`, userData);
+                const response = await apiAxios.put('https://e-commerce-backend-g2.onrender.com/user/update', userData);
+                return response.data;
             } catch (error) {
-                throw error;
+                throw new Error(error.response?.data?.message || 'An error occurred');
             }
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['user', 'me']);
         },
-
     });
-
-}
-
+};
 
 // change password
 export const UseChangePassword = () => {
