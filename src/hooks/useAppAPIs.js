@@ -357,8 +357,8 @@ export const useLogout = () => {
     return useMutation(
         async () => {
             try {
-                const response = await apiAxios.post('/users/logout', null);
-                return response.data;
+                // Remove the token from local storage (or any storage you're using)
+                localStorage.removeItem('authToken');
             } catch (error) {
                 throw error;
             }
@@ -370,7 +370,6 @@ export const useLogout = () => {
         }
     );
 };
-
 
 
 // add user address to the order
