@@ -20,6 +20,7 @@ import { useState } from "react";
 import Link from "@mui/material/Link";
 import useCategories from "../../hooks/useCategories";
 import { Stack } from "@mui/material";
+import { useSearch } from "../../hooks/useSearch";  // Import the custom hook
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -28,6 +29,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { userData, refetchUser } = useUser();
   const userMutation = useLogout();
+  const { handleProductsPage } = useSearch(); // Destructure the function from your custom hook
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -56,13 +58,12 @@ const Header = () => {
         navigate("/");
       }, 1000);
     } catch (error) {
-      throw error;
+      console.error("Logout failed", error);
     }
   };
 
   const { categoryData } = useCategories();
   const categoriesData = categoryData?.categories;
-  console.log(categoryData?.categories);
 
   return (
     <AppBar
@@ -101,6 +102,8 @@ const Header = () => {
               ))}
           </Stack>
         </Box>
+
+        {/* Updated SearchBox handling */}
         <Box
           sx={{
             backgroundColor: "accent.main",
@@ -111,7 +114,7 @@ const Header = () => {
             mr: "15px",
           }}
         >
-          <SearchBox />
+          <SearchBox onSearch={handleProductsPage} />
         </Box>
 
         <Box sx={{ flexGrow: 0, display: "flex", flexDirection: "column" }}>

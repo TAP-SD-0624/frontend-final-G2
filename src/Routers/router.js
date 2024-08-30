@@ -94,6 +94,14 @@ export const router = createBrowserRouter([
                 path: "/*",
                 element: <NotFoundPage />,
             },
+            {
+                path:"/products/itemCardTwo",
+                element:<ProductsPage/>,
+            },
+            {
+                path:"/products/itemCardOne",
+                element:<ProductsPage/>,
+            }
 
         ]
     }

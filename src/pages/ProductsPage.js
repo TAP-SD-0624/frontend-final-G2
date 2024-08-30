@@ -11,10 +11,11 @@ import ProductsList from '../components/ProductsList/ProductsList';
 import Typography from "@mui/material/Typography";
 import useCategoryData from '../hooks/useCategoryData';
 import useNewArrivals from '../hooks/useNewArrivals';
+import { useSearch } from '../hooks/useSearch';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
-  }
+}
 
 const ProductsPage = () => {
     const [title, setTitle] = useState();
@@ -24,20 +25,23 @@ const ProductsPage = () => {
     const brandId = query.get('brandId');
     const brandName = query.get('brandName');
     const categoryID = query.get('categoryID');
-    const newArrivals=query.get('newArrivals');
+    const newArrivals = query.get('newArrivals');
+    const searchValue = query.get('search'); // Get the search query parameter
     const categoryName = query.get('categoryName');
-    const{ brandData}=useBrands(brandId);
-    const {newArrivalsData}=useNewArrivals();
-    console.log(brandData);
-    const{categoryData}=useCategoryData(categoryID);
-    let name=brandName?brandName:categoryName?categoryName:newArrivals;
-    let data=brandId?brandData:categoryData?categoryData:newArrivalsData;
+    const { brandData } = useBrands(brandId);
+    const { newArrivalsData } = useNewArrivals();
+    const { searchResults, isLoading: isSearchLoading } = useSearch(searchValue); // Get search results and loading state
+    const { categoryData } = useCategoryData(categoryID);
     
+    // Determine the data to display based on the query parameters
+    let name = brandName ? brandName : categoryName ? categoryName : newArrivals ? 'New Arrivals' : searchValue ? `Search Results for "${searchValue}"` : '';
+    let data = searchValue ? searchResults : brandId ? brandData : categoryData ? categoryData : newArrivalsData;
+
     const offset = (page - 1) * limit;
     const location = useLocation();
-    const queryString = location.search;   
+    const queryString = location.search;
     const filter = `${queryString}&offset=${offset}&limit=${limit}`;
-    
+
     const handleNext = () => {
         setPage((prevPage) => prevPage + 1);
     };
@@ -56,8 +60,7 @@ const ProductsPage = () => {
             path: '/'
         }
     ];
-      
-    
+
     return (
         <Container aria-label="Product Page" role="region" sx={{ marginTop: '2rem', display: 'flex', flexDirection: 'column' }} maxWidth='1780px'>
             <img alt={'pic'} src={imghero} width='100%' />
@@ -67,15 +70,24 @@ const ProductsPage = () => {
                     {name}
                 </StyledTitle>
             )}
-            { data?.length > 0 ? <ProductsList products={data} /> : <Typography variant={'h3'} component={'h2'}>No Products Found :(</Typography>}
+            {/* Loading state handling */}
+            {isSearchLoading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+                    <CircularProgress />
+                </Box>
+            ) : data?.length > 0 ? (
+                <ProductsList products={data} />
+            ) : (
+                <Typography variant={'h3'} component={'h2'}>No Products Found </Typography>
+            )}
             <Box sx={{ display: 'flex', justifyContent: 'center', my: 4, gap: '20px' }}>
                 {data && <Box sx={{ height: '36px', bgcolor: 'grey.main', borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center' }} px={2}>
                     <Pagination aria-label="Page navigation" count={data?.pagination?.totalPages || 1} page={page} onChange={handleChange} shape="rounded" color="primary" hidePrevButton hideNextButton />
                 </Box>}
                 {data?.pagination?.totalPages !== data?.pagination?.currentPage && <Button aria-label="Next page" onClick={handleNext} variant="contained" sx={{ color: 'TypeLowEmphasis.main', bgcolor: 'grey.main', height: '36px', width: '67px' }}>Next</Button>}
             </Box>
-
         </Container>
     );
 };
+
 export default ProductsPage;
